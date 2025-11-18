@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { useUserStore } from "../../app/store/auth";
 
 const LoginPage = () => {
-  const { setUserInfo, setIsLoggedIn, isLoggedIn, userInfo } = useUserStore();
+  const { setUserInfo, setIsLoggedIn, isLoggedIn, userInfo, setUserName } = useUserStore();
 
   const handleLoginS = (response) => {
     console.log("login");
@@ -12,6 +12,7 @@ const LoginPage = () => {
     const user = jwtDecode(userCredential); // JWT 토큰 디코딩
     setUserInfo(user);
     setIsLoggedIn(true);
+    setUserName(user.name)
     console.log("성공");
   };
 
@@ -21,6 +22,7 @@ const LoginPage = () => {
   const handleLogout = () => {
     setUserInfo(null);
     setIsLoggedIn(false);
+    setUserName("")
   };
   const showUserInfo = () => {
     console.log("유저정보");
