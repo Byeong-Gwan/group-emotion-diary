@@ -8,6 +8,9 @@ node_modules/
 /.cache/
 /.tmp/
 
+# Test/coverage
+coverage/
+
 # Environment
 .env
 .env.*
@@ -24,6 +27,7 @@ logs
 # Editors/IDE
 .vscode/
 .idea/
+*.swp
 
 # OS
 .DS_Store

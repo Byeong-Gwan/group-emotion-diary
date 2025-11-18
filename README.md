@@ -162,7 +162,14 @@ src/
  - 회고: [예] API 키 브라우저 노출 이슈로 프록시 검토 필요
  ```
 
+# 실행이 되지 않으면 
+```bash
+rm -rf node_modules package-lock.json
+npm cache verify
+npm install
+npm run dev
+```
+
  ---
 
  필요한 내용만 최소한으로 담았습니다. 각자 맡은 페이지 폴더에서 바로 작업을 시작하세요.
- 
