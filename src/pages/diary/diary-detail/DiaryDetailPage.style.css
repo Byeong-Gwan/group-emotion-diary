@@ -1,0 +1,11 @@
+ .diaryDetail-article {
+   max-width: 720px;
+ }
+
+ .diaryDetail-content {
+   white-space: pre-wrap;
+ }
+
+ .diaryDetail-empty {
+   color: #888;
+ }
