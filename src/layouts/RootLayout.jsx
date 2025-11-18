@@ -1,5 +1,6 @@
  import { Container, Nav, Navbar } from 'react-bootstrap'
  import { Link, Outlet } from 'react-router-dom'
+import LoginPage from '../pages/auth/LoginPage'
 
  export default function RootLayout() {
    return (
@@ -8,6 +9,7 @@
          <Container>
            <Navbar.Brand as={Link} to="/">Emotion Diary</Navbar.Brand>
            <Nav className="ms-auto">
+            <LoginPage />
              <Nav.Link as={Link} to="/">Diaries</Nav.Link>
              <Nav.Link as={Link} to="/diary/new">New</Nav.Link>
            </Nav>
