@@ -42,7 +42,7 @@ const LoginPage = () => {
           style={{ borderRadius: "50%" }}
           onClick={showUserInfo}
         />
-        <button onClick={handleLogout}>로그아웃</button></div>
+        <button onClick={handleLogout}>로그아웃!</button></div>
       )}
     </div>
   );

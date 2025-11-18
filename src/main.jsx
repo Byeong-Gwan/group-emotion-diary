@@ -13,7 +13,7 @@ console.log("clientId:", clientId);
 
 
 createRoot(document.getElementById("root")).render(
-  <GoogleOAuthProvider clientId={clientId}>
+  <GoogleOAuthProvider clientId={clientId} >
     <StrictMode>
       <AppQueryProvider>
         <RouterProvider router={router} />
