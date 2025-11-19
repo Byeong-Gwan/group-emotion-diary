@@ -31,9 +31,9 @@ const UserInfo = () => {
         <p>동기화 사용 중</p>
       </div>
       <div>
-        <p>chrome 프로필 추가</p>
+        <p>Chrome 프로필 추가</p>
         <p>게스트 프로필 열기</p>
-        <p>chrome 프로필 관리</p>
+        <p>Chrome 프로필 관리</p>
       </div>
       <button onClick={handleLogout}>로그아웃</button>
     </div>
