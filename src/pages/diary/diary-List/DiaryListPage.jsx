@@ -17,6 +17,16 @@ export default function DiaryListPage() {
 
   const selectedMonth = new Date(selectedDate).getMonth() + 1;
 
+  // ['#6cc08e''#8fc970' '#e9b80f''#ea7430''#e64b52']
+
+  const moodColors = {
+    "very-good": "#6cc08e",
+    good: "#8fc970",
+    "so-so": "#e9b80f",
+    bad: "#ea7430",
+    awful: "#e64b52",
+  };
+
   useEffect(() => {
     if (selectedMonth === 10) {
       fetch("http://localhost:3000/emotionDiary")
@@ -102,25 +112,41 @@ export default function DiaryListPage() {
             </Card.Body>
           </Card>
         ) : (
-          sortedDiaries.map((d) => (
-            <Card key={d.id} className="diaryList-card">
-              <Card.Body>
-                <Card.Title>{d.title}</Card.Title>
-                <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
-                <div className="d-flex justify-content-start gap-3">
-                  <Card.Text>{d.mood}</Card.Text>
-                  <Card.Text>
+          sortedDiaries.map((d, idx) => (
+            <Card
+              key={d.id}
+              className="diaryList-card"
+              style={{ border: `3px solid ${moodColors[d.mood] || "#ccc"}` }}
+            >
+              <Card>
+                <Card.Body as={Link} to={`/diary/${d.id}`}>
+                  <Card.Text className="d-flex justify-content-end">
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>
-                </div>
-                <Button
-                  as={Link}
-                  to={`/diary/${d.id}`}
-                  variant="outline-primary"
+                  <div className="px-1">
+                    <h3>{idx}</h3>
+                    <Card.Title>{d.title}</Card.Title>
+                    <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
+                    <div className="d-flex justify-content-start gap-3">
+                      <Card.Text
+                        style={{
+                          color: `${moodColors[d.mood] || "#ccc"}`,
+                          fontWeight: "bolder",
+                        }}
+                      >
+                        {d.mood}
+                      </Card.Text>
+                    </div>
+                  </div>
+                </Card.Body>
+                <div
+                  className="p-3 d-flex justify-content-end"
+                  style={{ boxSizing: "border-box" }}
                 >
-                  Detail
-                </Button>
-              </Card.Body>
+                  <button className="mx-1">수정</button>
+                  <button className="mx-1">삭제</button>
+                </div>
+              </Card>
             </Card>
           ))
         )}
