@@ -4,15 +4,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import useDiaryStore from "../app/store/diary";
 import LoginPage from "../pages/auth/LoginPage";
+
 export default function RootLayout() {
   const location = useLocation().pathname;
   const { selectedDate, setSelectedDate } = useDiaryStore();
 
   return (
     <>
-      <Navbar bg="light" expand="lg">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
+      <Navbar bg="light" expand="lg" className="app-navbar shadow-sm sticky-top">
+        <Container className="app-content">
+          <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
             Emotion Diary
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -41,7 +42,7 @@ export default function RootLayout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container className="py-4">
+      <Container className="py-4 app-content">
         <Outlet />
       </Container>
     </>
