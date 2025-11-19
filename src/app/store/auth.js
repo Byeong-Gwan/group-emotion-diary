@@ -7,4 +7,7 @@ export const useUserStore = create((set) => ({
 
   isLoggedIn: false,
   setIsLoggedIn: (login) => set({ isLoggedIn: login }),
+
+  userName: "",
+  setUserName:(name)=> set({userName: name}),
 }));
