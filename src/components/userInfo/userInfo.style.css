@@ -1,0 +1,29 @@
+.user-info-box {
+  color: white;
+  position: absolute;
+  background-color: rgb(61, 60, 61);
+  top: 5px;
+  right: 0;
+  z-index: 9998;
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+.user-profile {
+  text-align: center;
+  background-color: rgb(92, 88, 92);
+  border-radius: 16px;
+  z-index: 9999;
+  
+}
+.profileManage,
+.profileAdd {
+  font-size: 12px;
+}
+.profileManage p,
+.profileAdd p{
+    margin: 0.5rem 0;
+}
+.profileManage{
+    border-bottom: 1px solid white;
+}
