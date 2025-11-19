@@ -6,7 +6,7 @@ const EmotionModal = (props) => {
   const [emotionResult, setEmotionResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const MAX_DAILY = 3;
+  const MAX_DAILY = 4;
 
   // 하루 횟수 유지
   useEffect(() => {
@@ -56,20 +56,20 @@ const EmotionModal = (props) => {
       {...props}
       size="lg"
       centered
-      contentClassName="bg-dark text-light"
+      contentClassName="emotion-modal"
     >
-      <BootstrapModal.Header closeButton closeVariant="white">
+      <BootstrapModal.Header closeButton>
         <BootstrapModal.Title>감정 분석</BootstrapModal.Title>
       </BootstrapModal.Header>
 
       <BootstrapModal.Body>
-        <p>
-          오늘 사용한 횟수: {count}/{MAX_DAILY}
+        <p className="emotion-modal-count text-muted small mb-3">
+          오늘 사용한 횟수: {count}/{MAX_DAILY - 1}
         </p>
 
         {!emotionResult && !loading && (
           <Button
-            variant="outline-light"
+            variant="outline-primary"
             onClick={analyzeEmotion}
             disabled={count >= MAX_DAILY}
           >
@@ -77,20 +77,12 @@ const EmotionModal = (props) => {
           </Button>
         )}
 
-        {loading && <p>분석 중...</p>}
+        {loading && <p className="mb-0">분석 중...</p>}
 
         {!loading && emotionResult && (
-          <div
-            style={{
-              marginTop: 12,
-              padding: 12,
-              borderRadius: 8,
-              background: "#f0f0f0",
-              color: "#000",
-            }}
-          >
-            <strong>분석 결과:</strong>
-            <p>{emotionResult}</p>
+          <div className="emotion-result-box mt-3">
+            <strong className="emotion-result-title">분석 결과:</strong>
+            <p className="emotion-result-text">{emotionResult}</p>
           </div>
         )}
       </BootstrapModal.Body>
@@ -102,7 +94,7 @@ const EmotionModal = (props) => {
             {/* 마지막 횟수 전까지 “다시 요청” 가능 */}
             {!isLastTry && (
               <Button
-                variant="warning"
+                variant="outline-primary"
                 onClick={analyzeEmotion}
                 disabled={loading}
               >
@@ -112,7 +104,7 @@ const EmotionModal = (props) => {
 
             {/* 확인 → 부모 페이지에 결과 전달 */}
             <Button
-              variant="success"
+              variant="primary"
               onClick={() => props.onConfirm(emotionResult)}
             >
               확인
@@ -120,7 +112,7 @@ const EmotionModal = (props) => {
           </>
         )}
 
-        <Button variant="outline-light" onClick={props.onHide}>
+        <Button variant="outline-secondary" onClick={props.onHide}>
           닫기
         </Button>
       </BootstrapModal.Footer>
