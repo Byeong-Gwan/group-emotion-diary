@@ -1,17 +1,19 @@
-import { create } from 'zustand'
-import { persist, createJSONStorage } from 'zustand/middleware'
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 const useDiaryStore = create(
   persist(
     (set, get) => ({
       diaries: [],
+      selectedDate: new Date(), // 기본값으로 오늘 날짜
+      setSelectedDate: (date) => set({ selectedDate: date }),
 
       addDiary: ({ title, mood, content }) => {
-        const id = Date.now().toString(36)
-        const createdAt = new Date().toISOString()
-        const entry = { id, title, mood, content, createdAt }
-        set((state) => ({ diaries: [entry, ...state.diaries] }))
-        return id
+        const id = Date.now().toString(36);
+        const createdAt = new Date().toISOString();
+        const entry = { id, title, mood, content, createdAt };
+        set((state) => ({ diaries: [entry, ...state.diaries] }));
+        return id;
       },
 
       getDiary: (id) => get().diaries.find((d) => d.id === id) || null,
@@ -22,12 +24,11 @@ const useDiaryStore = create(
         ),
     }),
     {
-      name: 'diary-store',
+      name: "diary-store",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ diaries: state.diaries }),
+      partialize: (state) => ({ diaries: state.diaries, selectedDate: state.selectedDate }),
     }
   )
-)
+);
 
-export default useDiaryStore
-
+export default useDiaryStore;

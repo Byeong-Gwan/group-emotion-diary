@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../../../app/store/auth";
 import useDiaryStore from "../../../app/store/diary";
 
-// 로컬 스토리지에서 가져온다면?
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
 
@@ -13,7 +12,10 @@ export default function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
   const [sortOrder, setSortOrder] = useState("latest");
   const [moodFilter, setMoodFilter] = useState("all");
-  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
+
+  const { selectedDate } = useDiaryStore();
+
+  const selectedMonth = new Date(selectedDate).getMonth() + 1;
 
   useEffect(() => {
     if (selectedMonth === 10) {
@@ -27,6 +29,8 @@ export default function DiaryListPage() {
     } else if (selectedMonth === 11) {
       const localDiaries = useDiaryStore.getState().diaries;
       setDiaries(localDiaries);
+    } else {
+      setDiaries([]);
     }
   }, [selectedMonth, userInfo]);
   console.log(diaries);
@@ -58,6 +62,7 @@ export default function DiaryListPage() {
       <div className="d-grid gap-3">
         <div className="d-flex justify-content-start gap-3">
           <Form.Select
+            style={{ width: "25%" }}
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
           >
@@ -65,6 +70,7 @@ export default function DiaryListPage() {
             <option value="oldest">오래된순</option>
           </Form.Select>
           <Form.Select
+            style={{ width: "25%" }}
             value={moodFilter}
             onChange={(e) => setMoodFilter(e.target.value)}
           >
@@ -75,15 +81,27 @@ export default function DiaryListPage() {
             <option value="bad">나쁨</option>
             <option value="awful">매우나쁨</option>
           </Form.Select>
-          <Form.Select
-            value={selectedMonth}
-            onChange={(e) => setSelectedMonth(Number(e.target.value))}
-          >
-            <option value={10}>10월 (JSON 서버)</option>
-            <option value={11}>11월 (로컬스토리지)</option>
-          </Form.Select>
         </div>
-        {sortedDiaries.length > 0 ? (
+
+        {!userInfo ? (
+          <Card className="diaryList-card">
+            <Card.Body>
+              <Card.Title>로그인을 해주세요~</Card.Title>
+              <Button variant="outline-primary" disabled={true}>
+                Detail
+              </Button>
+            </Card.Body>
+          </Card>
+        ) : diaries.length === 0 ? (
+          <Card className="diaryList-card">
+            <Card.Body>
+              <Card.Title>데이터가 없습니다.</Card.Title>
+              <Button variant="outline-primary" disabled={true}>
+                Detail
+              </Button>
+            </Card.Body>
+          </Card>
+        ) : (
           sortedDiaries.map((d) => (
             <Card key={d.id} className="diaryList-card">
               <Card.Body>
@@ -105,15 +123,6 @@ export default function DiaryListPage() {
               </Card.Body>
             </Card>
           ))
-        ) : (
-          <Card className="diaryList-card">
-            <Card.Body>
-              <Card.Title>로그인을 해주세요~</Card.Title>
-              <Button variant="outline-primary" disabled={true}>
-                Detail
-              </Button>
-            </Card.Body>
-          </Card>
         )}
       </div>
     </>
