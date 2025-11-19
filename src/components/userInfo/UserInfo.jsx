@@ -16,12 +16,12 @@ const UserInfo = () => {
   return (
     <div className="position-relative">
       <div className="user-info-box">
-        <div className="user-profile px-5 py-2">
+        <div className="user-profile  py-2">
           <img
             src={userInfo.picture}
             alt="Profile"
-            width="60"
             style={{ borderRadius: "59%" }}
+            className="profile-img"
           />
           <p className="mt-2">{userInfo.name}</p>
           <p>{userInfo.email}</p>
@@ -37,7 +37,7 @@ const UserInfo = () => {
           <p>게스트 프로필 열기</p>
           <p>Chrome 프로필 관리</p>
         </div>
-        <button className="btn btn-secondary" onClick={handleLogout}>로그아웃</button>
+        <button className="btn btn-secondary profile-btn" onClick={handleLogout}>로그아웃</button>
       </div>
     </div>
   );

@@ -14,16 +14,35 @@
   background-color: rgb(92, 88, 92);
   border-radius: 16px;
   z-index: 9999;
-  
+  padding: 2rem 4rem;
 }
 .profileManage,
 .profileAdd {
   font-size: 12px;
 }
 .profileManage p,
-.profileAdd p{
-    margin: 0.5rem 0;
+.profileAdd p {
+  margin: 0.5rem 0;
 }
-.profileManage{
-    border-bottom: 1px solid white;
+.profileManage {
+  border-bottom: 1px solid white;
+}
+.profile-img {
+  width: 35%;
+}
+
+@media (max-width: 576px) {
+  .user-profile {
+    padding: 1rem 1rem;
+  }
+  .user-profile p{
+    font-size: 1rem;
+  }
+  .profile-img {
+    width: 25% !important;
+  }
+  .profile-btn{
+    padding: 0.2rem;
+    font-size: 0.8rem;
+  }
 }
