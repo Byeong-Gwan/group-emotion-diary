@@ -108,7 +108,7 @@ export default function DiaryListPage() {
         ) : (
           <Card className="diaryList-card">
             <Card.Body>
-              <Card.Title>로그인을 해주세요.</Card.Title>
+              <Card.Title>로그인을 해주세요~</Card.Title>
               <Button variant="outline-primary" disabled={true}>
                 Detail
               </Button>
