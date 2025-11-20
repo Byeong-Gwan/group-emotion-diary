@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useDiaryStore from "../../../../app/store/diary.js";
 import MoodPicker from "../../../../components/mood-picker/MoodPicker.jsx";
-import "./PatchDiary.style.css"
+import "./PatchDiary.style.css";
 
 // 구성(추가/수정 쉬움): 객체 하나 추가하면 UI 자동 반영
 const moodOptions = [
@@ -64,7 +64,7 @@ const moodOptions = [
   },
 ];
 
-export default function PatchDiary({ diary, onClose }) {
+export default function PatchDiary({ diary, onClose, setDiaries }) {
   const navigate = useNavigate();
   const updateDiary = useDiaryStore((s) => s.updateDiary);
   const [title, setTitle] = useState(diary.title);
@@ -72,16 +72,37 @@ export default function PatchDiary({ diary, onClose }) {
   const [content, setContent] = useState(diary.content);
   const [touched, setTouched] = useState(false);
   const isValid = title.trim().length > 0 && content.trim().length > 0;
+  const diaryMonth = new Date(diary.createdAt).getMonth() + 1;
+
+  const updateJsonDiary = async (id, payload) => {
+    try {
+      const res = await fetch(`http://localhost:3000/emotionDiary/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error("수정 실패");
+      const updatedDiary = await res.json();
+
+      setDiaries((prev) => prev.map((d) => (d.id === id ? updatedDiary : d)));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onSubmit = (event) => {
     event.preventDefault();
     setTouched(true);
-    onClose()
+    onClose();
     if (!isValid) return;
     // 제출 데이터 콘솔 출력
 
-    updateDiary(diary?.id, { title, mood, content });
-    navigate(`/diary/${diary?.id}`);
+    if (diaryMonth === 11) {
+      updateDiary(diary?.id, { title, mood, content });
+      navigate(`/diary/${diary?.id}`);
+    } else {
+      updateJsonDiary(diary?.id, { title, mood, content })
+    }
   };
 
   return (
