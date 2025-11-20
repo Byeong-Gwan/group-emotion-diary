@@ -23,7 +23,7 @@ export default function DiaryListPage() {
 
   // ['#6cc08e''#8fc970' '#e9b80f''#ea7430''#e64b52']
 
-   const moodColors = {
+  const moodColors = {
     "very-good": "#6cc08e",
     good: "#8fc970",
     "so-so": "#e9b80f",
@@ -141,12 +141,20 @@ export default function DiaryListPage() {
         ) : (
           currentDiaries.map((d, idx) => (
             <Card key={d.id} className="diaryList-card">
-              <Card.Body as={Link}
-                  to={`/diary/${d.id}`}>
+              <Card.Body as={Link} to={`/diary/${d.id}`}>
                 <Card.Title>{d.title}</Card.Title>
-                <Card.Text className="diaryList-excerpt">{d.content.slice(0, 80)}...</Card.Text>
+                <Card.Text className="diaryList-excerpt">
+                  {d.content.slice(0, 80)}...
+                </Card.Text>
                 <div className="d-flex justify-content-start gap-3">
-                  <Card.Text style={{backgroundColor:`${moodColors[d.mood]}`, color:"white"}}>{d.mood}</Card.Text>
+                  <Card.Text
+                    style={{
+                      backgroundColor: `${moodColors[d.mood]}`,
+                      color: "white",
+                    }}
+                  >
+                    {d.mood}
+                  </Card.Text>
                   <Card.Text>
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>

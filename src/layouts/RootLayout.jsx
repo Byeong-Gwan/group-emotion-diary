@@ -23,7 +23,7 @@ export default function RootLayout() {
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-            <Nav className="justify-content-center d-flex gap-3 align-items-center">
+            <Nav className="justify-content-center d-flex gap-3 align-items-center ms-auto">
               {location === "/" ? null : (
                 <Button
                   as={Link}
@@ -34,7 +34,7 @@ export default function RootLayout() {
                   📚다이어리 목록
                 </Button>
               )}
-              <LoginPage />
+              <LoginPage/>
             </Nav>
           </Navbar.Collapse>
         </Container>
