@@ -129,10 +129,7 @@ export default function DiaryListPage() {
         {!userInfo ? (
           <Card className="diaryList-card">
             <Card.Body>
-              <Card.Title className="p-2">로그인을 해주세요~</Card.Title>
-              <Button variant="outline-primary" disabled={true}>
-                Detail
-              </Button>
+              <Card.Title className="p-2 m-0">로그인을 해주세요~</Card.Title>
             </Card.Body>
           </Card>
         ) : diaries.length === 0 ? (
@@ -144,7 +141,8 @@ export default function DiaryListPage() {
         ) : (
           currentDiaries.map((d, idx) => (
             <Card key={d.id} className="diaryList-card">
-              <Card.Body>
+              <Card.Body as={Link}
+                  to={`/diary/${d.id}`}>
                 <Card.Title>{d.title}</Card.Title>
                 <Card.Text className="diaryList-excerpt">{d.content.slice(0, 80)}...</Card.Text>
                 <div className="d-flex justify-content-start gap-3">
@@ -153,16 +151,9 @@ export default function DiaryListPage() {
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>
                 </div>
-                <Button
-                  as={Link}
-                  to={`/diary/${d.id}`}
-                  variant="outline-primary"
-                >
-                  Detail
-                </Button>
               </Card.Body>
               <div
-                className="p-3 d-flex justify-content-between"
+                className="px-3 pb-3 d-flex justify-content-between align-items-center"
                 style={{ boxSizing: "border-box" }}
               >
                 <div className="fs-4">{offset + idx + 1}</div>
