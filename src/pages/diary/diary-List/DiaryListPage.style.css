@@ -186,3 +186,54 @@
   background: #f8fafc;
   margin: 0; /* override Card.Text bottom margin */
 }
+
+/* Pagination - pretty pill buttons */
+.diaryList-pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  padding: 8px 0;
+}
+
+.diaryList-page,
+.diaryList-prev,
+.diaryList-next,
+.diaryList-break {
+  list-style: none;
+}
+
+.diaryList-link {
+  display: inline-flex;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 12px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  text-decoration: none;
+  transition: all .15s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+.diaryList-link:hover {
+  background: #f9fafb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+}
+
+.diaryList-pagination .is-active .diaryList-link {
+  background: linear-gradient(180deg, #f0f9ff, #ecfeff);
+  border-color: #bae6fd;
+  color: #0c4a6e;
+  font-weight: 700;
+}
+
+.diaryList-pagination .is-disabled .diaryList-link {
+  opacity: .5;
+  pointer-events: none;
+}

@@ -26,26 +26,26 @@ const moodOptions = [
         key: 'awful', label: '끔찍함', emoji: '😵',
         colors: { cardBg: '#ef7076', cardBorder: '#e64b52', text: '#3b0b0d', pageBg: '#ffecef' }
     },
-]
+];
 
 export default function DiaryCreatePage() {
-    const navigate = useNavigate()
-    const addDiary = useDiaryStore((s) => s.addDiary)
-    const [title, setTitle] = useState('')
-    const [mood, setMood] = useState('good')
-    const [content, setContent] = useState('')
-    const [touched, setTouched] = useState(false)
-    const isValid = title.trim().length > 0 && content.trim().length > 0
+    const navigate = useNavigate();
+    const addDiary = useDiaryStore((s) => s.addDiary);
+    const [title, setTitle] = useState('');
+    const [mood, setMood] = useState('good');
+    const [content, setContent] = useState('');
+    const [touched, setTouched] = useState(false);
+    const isValid = title.trim().length > 0 && content.trim().length > 0;
 
     const onSubmit = (event) => {
-        event.preventDefault()
-        setTouched(true)
-        if (!isValid) return
+        event.preventDefault();
+        setTouched(true);
+        if (!isValid) return;
         // 제출 데이터 콘솔 출력
         
-        const id = addDiary({ title, mood, content })
-        console.log('작성완료 데이터', { title, mood, content })
-        navigate(`/diary/${id}`)
+        const id = addDiary({ title, mood, content });
+        console.log('작성완료 데이터', { title, mood, content });
+        navigate(`/diary/${id}`);
     }
 
     return (
