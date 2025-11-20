@@ -144,15 +144,22 @@ export default function DiaryListPage() {
         ) : (
           currentDiaries.map((d, idx) => (
             <Card key={d.id} className="diaryList-card">
-              <Card.Body as={Link} to={`/diary/${d.id}`}>
+              <Card.Body>
                 <Card.Title>{d.title}</Card.Title>
-                <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
+                <Card.Text className="diaryList-excerpt">{d.content.slice(0, 80)}...</Card.Text>
                 <div className="d-flex justify-content-start gap-3">
                   <Card.Text style={{backgroundColor:`${moodColors[d.mood]}`, color:"white"}}>{d.mood}</Card.Text>
                   <Card.Text>
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>
                 </div>
+                <Button
+                  as={Link}
+                  to={`/diary/${d.id}`}
+                  variant="outline-primary"
+                >
+                  Detail
+                </Button>
               </Card.Body>
               <div
                 className="p-3 d-flex justify-content-between"

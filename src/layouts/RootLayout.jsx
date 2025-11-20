@@ -2,15 +2,18 @@ import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import useDiaryStore from "../app/store/diary";
 import LoginPage from "../pages/auth/LoginPage";
 import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
+import Footer from "../components/Footer/Footer";
 
 export default function RootLayout() {
   const location = useLocation().pathname;
+  const { selectedDate, setSelectedDate } = useDiaryStore();
   useMoodFillNavigation();
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <Navbar
         bg="light"
         expand="lg"
@@ -20,11 +23,17 @@ export default function RootLayout() {
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
             Emotion Diary
           </Navbar.Brand>
-
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
-
-            <Nav className="ms-auto">
+            <Nav className="mx-auto mb-3 mb-lg-0">
+              <DatePicker
+                dateFormat="yyyy/MM/dd"
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                className="form-control text-center"
+              />
+            </Nav>
+            <Nav className="justify-content-center d-flex gap-3 align-items-center">
               {location === "/" ? null : (
                 <Button
                   as={Link}
@@ -40,9 +49,10 @@ export default function RootLayout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container className="py-4 app-content">
+      <Container className="py-4 app-content flex-grow-1">
         <Outlet />
       </Container>
-    </>
+      <Footer />
+    </div>
   );
 }
