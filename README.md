@@ -142,6 +142,36 @@ src/
 - 서비스(API 호출)는 `src/services/`에 함수로 분리 후 페이지 훅에서 사용
 - 전역 상태는 꼭 필요한 것만 `zustand`로 관리
 - true/false 값 확인 하는 변수인 경우 is~ 로 시작
+
+ ## 커밋 메시지 규칙 (팀 통일)
+ 
+ - 형식: `type: [scope] subject`
+ - 예시: `feat: [login] auth 로그인 기능 추가 (Google 연동)`
+ - 가이드: `feat: ['어떤작업'] '작업한 폴더 이름 + 기능 내용(상세 내용 요약)`
+ 
+ 허용 type
+ - feat: 새로운 기능
+ - fix: 버그 수정
+ - refactor: 리팩토링(기능변화 없음)
+ - docs: 문서 변경(README 등)
+ - style: 코드 스타일(포맷팅, 세미콜론 등)
+ - test: 테스트 추가/수정
+ - chore: 빌드/설정/잡무
+ 
+ scope(예)
+ - login, diary-list, diary-detail, diary-create, router, layout, hooks, services 등
+ 
+ subject(예)
+ - `auth 로그인 기능 추가 (Google 연동)`
+ - `diary 목록 카드 UI 정리`
+ 
+ ## 데일리 로그 규칙 (개인별 md)
+ 
+ - 위치: `docs/daily-logs/{memberId}.md`
+ - 매일 항목: 날짜 / 한일 / 상세 내용 / 회고
+ - 템플릿: `docs/templates/daily-log-template.md` 참고(복사해서 사용)
+ 
+ 템플릿 예시
  ```md
  # {memberId} Daily Log
  
