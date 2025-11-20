@@ -1,3 +1,6 @@
+ a{
+  text-decoration: none;
+ }
  .diaryList-card {
   border: 1px solid #e5e7eb;
   border-radius: 12px;
@@ -14,20 +17,26 @@
   box-shadow: 0 10px 24px rgba(0,0,0,0.08);
 }
 
-/* Subtle left accent bar */
-.diaryList-card::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 10px;
-  bottom: 10px;
-  width: 4px;
-  border-radius: 4px;
-  background: linear-gradient(180deg, #93c5fd, #86efac);
-  background-size: 100% 200%;
-  opacity: .9;
-  animation: diaryList-accentFlow 3s ease-in-out infinite;
-}
+  /* Subtle left accent bar */
+  .diaryList-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 5px;
+    border-radius: 4px;
+    background: linear-gradient(180deg, #93c5fd, #86efac);
+    background-size: 100% 200%;
+    opacity: .9;
+    animation: diaryList-accentFlow 3s ease-in-out infinite;
+  }
+
+  .mood-very-good::before { background-color: #6cc08e; }
+.mood-good::before { background-color: #8fc970; }
+.mood-so-so::before { background-color: #e9b80f; }
+.mood-bad::before { background-color: #ea7430; }
+.mood-awful::before { background-color: #e64b52; }
 
 /* Accent color per mood (matches moodPalette) */
 .diaryList-card[data-mood="very-good"]{ --mood: #a7e3b3; --mood-strong:#6cc08e; }
