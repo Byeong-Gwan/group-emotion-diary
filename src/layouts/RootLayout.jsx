@@ -1,9 +1,13 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import LoginPage from "../pages/auth/LoginPage";
+import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
 
 export default function RootLayout() {
   const location = useLocation().pathname;
+  useMoodFillNavigation();
 
   return (
     <>
@@ -13,13 +17,13 @@ export default function RootLayout() {
         className="app-navbar shadow-sm sticky-top"
       >
         <Container className="app-content">
-
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
             Emotion Diary
           </Navbar.Brand>
 
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
+
             <Nav className="ms-auto">
               {location === "/" ? null : (
                 <Button

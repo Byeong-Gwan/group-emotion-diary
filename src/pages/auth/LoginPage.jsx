@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
 import { useUserStore } from "../../app/store/auth";
 import UserInfo from "../../components/UserInfo/UserInfo";
+import GoogleLoginButton from "../../components/common/GoogleLoginButton";
 
 const LoginPage = () => {
   const { setUserInfo, setIsLoggedIn, isLoggedIn, userInfo, setUserName } =
@@ -10,14 +9,11 @@ const LoginPage = () => {
 
   const [isShowInfo, setIsShowInfo] = useState(false);
 
-  const handleLoginS = (response) => {
-    console.log("login");
-    const userCredential = response.credential;
-    const user = jwtDecode(userCredential); // JWT 토큰 디코딩
+  const handleLoginS = (user) => {
+    // user from Google UserInfo API
     setUserInfo(user);
     setIsLoggedIn(true);
-    setUserName(user.name);
-    console.log("성공");
+    setUserName(user?.name || "");
   };
 
   const handleLoginF = (error) => {
@@ -32,13 +28,7 @@ const LoginPage = () => {
     <div className="d-flex align-items-center">
       {!isLoggedIn ? (
         <div>
-          <GoogleLogin
-            onSuccess={handleLoginS}
-            onError={handleLoginF}
-            theme="outline" // "filled_blue", "filled_black", "outline"
-            size="medium" // "large", "medium", "small"
-            shape="pill" // "rectangular", "pill", "circle"
-          ></GoogleLogin>
+          <GoogleLoginButton onSuccess={handleLoginS} onError={handleLoginF} />
         </div>
       ) : (
         <div>

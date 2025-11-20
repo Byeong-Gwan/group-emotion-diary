@@ -23,7 +23,7 @@ export default function DiaryListPage() {
 
   // ['#6cc08e''#8fc970' '#e9b80f''#ea7430''#e64b52']
 
-  const moodColors = {
+   const moodColors = {
     "very-good": "#6cc08e",
     good: "#8fc970",
     "so-so": "#e9b80f",
@@ -74,9 +74,6 @@ export default function DiaryListPage() {
 
   //m = n 이라면 속도가 같지만 두 값이 같을 확률은 적다. m은 5개의 감정을 중 특정 감정을 필터링한 결과라서
 
-
-
-
   //현재 페이지의 시작점
   const offset = currentPage * itemsPerPage;
   const currentDiaries = sortedDiaries.slice(offset, offset + itemsPerPage);
@@ -90,7 +87,7 @@ export default function DiaryListPage() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>{selectedMonth}월 Diaries</h2>
+        <h3>{selectedMonth}월 Diaries</h3>
         <Button as={Link} to="/diary/new">
           New
         </Button>
@@ -149,34 +146,15 @@ export default function DiaryListPage() {
           </Card>
         ) : (
           currentDiaries.map((d, idx) => (
-            <Card
-              key={d.id}
-              className="diaryList-card"
-              style={{ border: `3px solid ${moodColors[d.mood] || "#ccc"}` }}
-            >
-              <Card.Body
-                as={Link}
-                to={`/diary/${d.id}`}
-                className="text-decoration-none"
-              >
-                <Card.Text className="d-flex justify-content-between">
-                  <div className="d-flex">
-                    <div className="d-flex justify-content-start align-items-center">
-                      <Card.Text
-                        style={{
-                          color: `${moodColors[d.mood] || "#ccc"}`,
-                          fontWeight: "bolder",
-                        }}
-                      >
-                        {d.mood}
-                      </Card.Text>
-                    </div>
-                  </div>
-                  {new Date(d.createdAt).toLocaleDateString("ko-KR")}
-                </Card.Text>
-                <div className="px-1">
-                  <Card.Title>{d.title}</Card.Title>
-                  <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
+            <Card key={d.id} className="diaryList-card">
+              <Card.Body as={Link} to={`/diary/${d.id}`}>
+                <Card.Title>{d.title}</Card.Title>
+                <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
+                <div className="d-flex justify-content-start gap-3">
+                  <Card.Text style={{backgroundColor:`${moodColors[d.mood]}`, color:"white"}}>{d.mood}</Card.Text>
+                  <Card.Text>
+                    {new Date(d.createdAt).toLocaleDateString("ko-KR")}
+                  </Card.Text>
                 </div>
               </Card.Body>
               <div
