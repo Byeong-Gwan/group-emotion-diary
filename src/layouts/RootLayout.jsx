@@ -6,6 +6,7 @@ import logoText from "../asset/logo-text.png";
 import Footer from "../components/Footer/Footer";
 import LoginPage from "../pages/auth/LoginPage";
 import { useUserStore } from "../app/store/auth";
+import SearchBar from "../components/common/SearchBar/SearchBar";
 export default function RootLayout() {
   const location = useLocation().pathname;
   const { isLoggedIn, userInfo } = useUserStore();
@@ -25,7 +26,9 @@ export default function RootLayout() {
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
             <Nav className="justify-content-center d-flex gap-3 align-items-center ms-auto">
-              {location === "/" ? null : (
+              {location === "/" ? (
+                <SearchBar />
+              ) : (
                 <Button
                   as={Link}
                   to="/"
