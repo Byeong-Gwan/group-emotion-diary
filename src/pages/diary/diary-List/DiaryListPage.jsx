@@ -87,7 +87,7 @@ export default function DiaryListPage() {
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h3>{selectedMonth}월 Diaries</h3>
+        <h3 className="m-0">{selectedMonth}월 Diaries</h3>
         <Button as={Link} to="/diary/new">
           New
         </Button>
@@ -139,9 +139,6 @@ export default function DiaryListPage() {
           <Card className="diaryList-card">
             <Card.Body>
               <Card.Title className="p-2">데이터가 없습니다.</Card.Title>
-              <Button variant="outline-primary" disabled={true}>
-                Detail
-              </Button>
             </Card.Body>
           </Card>
         ) : (
