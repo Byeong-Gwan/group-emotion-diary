@@ -49,11 +49,13 @@ export default function DiaryListPage() {
   }, [selectedMonth, userInfo]);
   console.log(diaries);
 
+  // 감정 필터링 -> return filteredDiaries
   const filteredDiaries = diaries.filter((d) => {
     if (moodFilter === "all") return true;
     return d.mood === moodFilter;
   });
 
+  //filteredDiaries -> 정렬 -> return sortedDiaries
   const sortedDiaries = [...filteredDiaries].sort((a, b) => {
     const dateA = new Date(a.createdAt);
     const dateB = new Date(b.createdAt);
@@ -65,8 +67,20 @@ export default function DiaryListPage() {
     }
   });
 
+  //필터링 -> 정렬 vs 정렬 -> 필터링 : 결과는 비슷할 수 있으나 데이터가 많을 수록 전자의 효율이 올라간다.
+  //10만 개 전체를 정렬 (O(n log n) → 약 10만 × log(10만)) -> 결과에서 조건에 맞는 것만 필터링 (O(n))
+
+  //10만 개 중 조건에 맞는 것만 필터링 (O(n)) -> - 필터링된 결과만 정렬 (O(m log m), 여기서 m은 필터링 후 남은 데이터 개수)
+
+  //m = n 이라면 속도가 같지만 두 값이 같을 확률은 적다. m은 5개의 감정을 중 특정 감정을 필터링한 결과라서
+
+
+
+
+  //현재 페이지의 시작점
   const offset = currentPage * itemsPerPage;
   const currentDiaries = sortedDiaries.slice(offset, offset + itemsPerPage);
+  //전체 페이지 수
   const pageCount = Math.ceil(sortedDiaries.length / itemsPerPage);
 
   const handlePageClick = ({ selected }) => {
