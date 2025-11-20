@@ -4,10 +4,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import useDiaryStore from "../app/store/diary";
 import LoginPage from "../pages/auth/LoginPage";
+import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
 
 export default function RootLayout() {
   const location = useLocation().pathname;
   const { selectedDate, setSelectedDate } = useDiaryStore();
+  useMoodFillNavigation();
 
   return (
     <>
