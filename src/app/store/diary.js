@@ -15,6 +15,14 @@ const useDiaryStore = create(
         set((state) => ({ diaries: [entry, ...state.diaries] }));
         return id;
       },
+      
+      //diaries 순회하면서 새로운 배열을 만든다. 매개변수로 받아온 id와 현재 id(d.id)같은 요소가 있으면 해당 객체의 모든 속성(...d)을 펼쳐서 payload값들로 덮어씌운다. id가 같지 않으면 그대로 유지
+      updateDiary: (id, payload) =>
+        set((state) => ({
+          diaries: state.diaries.map((d) =>
+            d.id === id ? { ...d, ...payload } : d
+          ),
+        })),
 
       getDiary: (id) => get().diaries.find((d) => d.id === id) || null,
 
@@ -26,7 +34,10 @@ const useDiaryStore = create(
     {
       name: "diary-store",
       storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({ diaries: state.diaries, selectedDate: state.selectedDate }),
+      partialize: (state) => ({
+        diaries: state.diaries,
+        selectedDate: state.selectedDate,
+      }),
     }
   )
 );

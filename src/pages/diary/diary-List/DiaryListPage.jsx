@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Button, Card, Form, Nav } from "react-bootstrap";
+import { Button, Card, Form, Nav, Modal } from "react-bootstrap";
 import "./DiaryListPage.style.css";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../app/store/auth";
@@ -7,6 +7,7 @@ import useDiaryStore from "../../../app/store/diary";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactPaginate from "react-paginate";
+import PatchDiary from "./component/PatchDiary";
 
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
@@ -21,6 +22,9 @@ export default function DiaryListPage() {
   const itemsPerPage = 5;
 
   const selectedMonth = new Date(selectedDate).getMonth() + 1;
+
+  const [editingDiary, setEditingDiary] = useState(null);
+  const [isShowModal, setIsShowModal] = useState(false);
 
   // ['#6cc08e''#8fc970' '#e9b80f''#ea7430''#e64b52']
 
@@ -108,16 +112,32 @@ export default function DiaryListPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleDelete = (id) => {
+  // 삭제 버튼
+
+  const handleDelete = async (id) => {
     console.log("delete", id);
     if (selectedMonth === 10) {
       console.log("10월");
+      try {
+        await fetch(`http://localhost:3000/emotionDiary/${id}`, {
+          method: "DELETE",
+        });
+        setDiaries((prev) => prev.filter((d) => d.id !== id));
+      } catch (err) {
+        console.error("삭제 실패", err);
+      }
     }
 
     if (selectedMonth === 11) {
       console.log("11월");
+      useDiaryStore.setState((state) => ({
+        diaries: state.diaries.filter((d) => d.id !== id),
+      }));
+      setDiaries((prev) => prev.filter((d) => d.id !== id));
     }
   };
+
+  // 수정 버튼
   const handlePatch = (id) => {
     console.log("patch", id);
     if (selectedMonth === 10) {
@@ -126,6 +146,9 @@ export default function DiaryListPage() {
 
     if (selectedMonth === 11) {
       console.log("11월");
+      const target = diaries.find((d) => d.id === id);
+      setEditingDiary(target);
+      setIsShowModal(true);
     }
   };
 
@@ -222,10 +245,10 @@ export default function DiaryListPage() {
               >
                 <div className="fs-4">{offset + idx + 1}</div>
                 <div>
-                  <button className="mx-1" onClick={() => handleDelete(d.id)}>
+                  <button className="mx-1" onClick={() => handlePatch(d.id)}>
                     수정
                   </button>
-                  <button className="mx-1" onClick={() => handlePatch(d.id)}>
+                  <button className="mx-1" onClick={() => handleDelete(d.id)}>
                     삭제
                   </button>
                 </div>
@@ -258,6 +281,16 @@ export default function DiaryListPage() {
           />
         )}
       </div>
+
+      {/* 모달 */}
+      {editingDiary && (
+        <Modal show={isShowModal} onHide={() => setIsShowModal(false)}>
+          <PatchDiary
+            diary={editingDiary}
+            onClose={() => setIsShowModal(false)}
+          />
+        </Modal>
+      )}
     </>
   );
 }
