@@ -41,11 +41,14 @@ export default function DiaryListPage() {
 
   useEffect(() => {
     //json-server는 REST API를 지원 -> DELETE PATCH 가능
-    if (selectedMonth === 10) {
+    if (selectedMonth === 9 || selectedMonth === 10) {
       fetch("http://localhost:3000/emotionDiary")
         .then((res) => res.json())
         .then((data) => {
-          const filtered = data.filter((item) => item?.name === userInfo?.name);
+          const filtered = data.filter((item) => {
+            const itemMonth = new Date(item.createdAt).getMonth() + 1;
+            return item?.name === userInfo?.name && itemMonth === selectedMonth;
+          });
           setDiaries(filtered);
           setCurrentPage(0);
         })
@@ -126,7 +129,7 @@ export default function DiaryListPage() {
 
   const handleDelete = async (id) => {
     console.log("delete", id);
-    if (selectedMonth === 10) {
+    if (selectedMonth === 10 || selectedMonth === 9) {
       console.log("10월");
       try {
         await fetch(`http://localhost:3000/emotionDiary/${id}`, {
@@ -150,16 +153,10 @@ export default function DiaryListPage() {
   // 수정 버튼
   const handlePatch = (id) => {
     console.log("patch", id);
-    if (selectedMonth === 10) {
-      console.log("10월");
-    }
-
-    if (selectedMonth === 11) {
-      console.log("11월");
-      const target = diaries.find((d) => d.id === id);
-      setEditingDiary(target);
-      setIsShowModal(true);
-    }
+    const target = diaries.find((d) => d.id === id);
+    setEditingDiary(target);
+    setIsShowModal(true);
+    console.log("10월");
   };
 
   return (
@@ -181,6 +178,7 @@ export default function DiaryListPage() {
           </Button>
         )}
       </div>
+
       <div className="d-grid gap-3">
         <div className="d-flex justify-content-between">
           <div className="d-flex gap-2">
@@ -296,7 +294,7 @@ export default function DiaryListPage() {
       {editingDiary && (
         <Modal show={isShowModal} onHide={() => setIsShowModal(false)}>
           <PatchDiary
-            diary={editingDiary}
+            diary={editingDiary} setDiaries={setDiaries}
             onClose={() => setIsShowModal(false)}
           />
         </Modal>
