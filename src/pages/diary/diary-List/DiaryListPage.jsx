@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useUserStore } from "../../../app/store/auth";
 import useDiaryStore from "../../../app/store/diary";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
@@ -106,7 +107,7 @@ export default function DiaryListPage() {
         {!userInfo ? (
           <Card className="diaryList-card">
             <Card.Body>
-              <Card.Title>로그인을 해주세요~</Card.Title>
+              <Card.Title className="p-2">로그인을 해주세요~</Card.Title>
               <Button variant="outline-primary" disabled={true}>
                 Detail
               </Button>
@@ -115,7 +116,7 @@ export default function DiaryListPage() {
         ) : diaries.length === 0 ? (
           <Card className="diaryList-card">
             <Card.Body>
-              <Card.Title>데이터가 없습니다.</Card.Title>
+              <Card.Title className="p-2">데이터가 없습니다.</Card.Title>
               <Button variant="outline-primary" disabled={true}>
                 Detail
               </Button>
@@ -129,32 +130,42 @@ export default function DiaryListPage() {
               style={{ border: `3px solid ${moodColors[d.mood] || "#ccc"}` }}
             >
               <Card>
-                <Card.Body as={Link} to={`/diary/${d.id}`}>
-                  <Card.Text className="d-flex justify-content-end">
+                <Card.Body
+                  as={Link}
+                  to={`/diary/${d.id}`}
+                  className="text-decoration-none"
+                >
+                  <Card.Text className="d-flex justify-content-between">
+                    <div className="d-flex">
+                      <div className="d-flex justify-content-start align-items-center">
+                        <Card.Text
+                          style={{
+                            color: `${moodColors[d.mood] || "#ccc"}`,
+                            fontWeight: "bolder",
+                          }}
+                        >
+                          {d.mood}
+                        </Card.Text>
+                      </div>
+                    </div>
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>
                   <div className="px-1">
-                    <h3>{idx}</h3>
                     <Card.Title>{d.title}</Card.Title>
                     <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
-                    <div className="d-flex justify-content-start gap-3">
-                      <Card.Text
-                        style={{
-                          color: `${moodColors[d.mood] || "#ccc"}`,
-                          fontWeight: "bolder",
-                        }}
-                      >
-                        {d.mood}
-                      </Card.Text>
-                    </div>
                   </div>
                 </Card.Body>
                 <div
-                  className="p-3 d-flex justify-content-end"
+                  className="p-3 d-flex justify-content-between"
                   style={{ boxSizing: "border-box" }}
                 >
-                  <button className="mx-1">수정</button>
-                  <button className="mx-1">삭제</button>
+                  <div className="fs-4">
+                    {idx+1}
+                  </div>
+                  <div>
+                    <button className="mx-1">수정</button>
+                    <button className="mx-1">삭제</button>
+                  </div>
                 </div>
               </Card>
             </Card>
