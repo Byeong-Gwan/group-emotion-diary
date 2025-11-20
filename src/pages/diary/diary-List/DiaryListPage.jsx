@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { Button, Card, Form } from "react-bootstrap";
+import { Button, Card, Form, Nav } from "react-bootstrap";
 import "./DiaryListPage.style.css";
 import { useEffect, useState } from "react";
 import { useUserStore } from "../../../app/store/auth";
 import useDiaryStore from "../../../app/store/diary";
+import DatePicker from "react-datepicker";
 
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
@@ -12,8 +13,7 @@ export default function DiaryListPage() {
   const [diaries, setDiaries] = useState([]);
   const [sortOrder, setSortOrder] = useState("latest");
   const [moodFilter, setMoodFilter] = useState("all");
-
-  const { selectedDate } = useDiaryStore();
+  const { selectedDate, setSelectedDate } = useDiaryStore();
 
   const selectedMonth = new Date(selectedDate).getMonth() + 1;
 
@@ -70,27 +70,37 @@ export default function DiaryListPage() {
         </Button>
       </div>
       <div className="d-grid gap-3">
-        <div className="d-flex justify-content-start gap-3">
-          <Form.Select
-            style={{ width: "25%" }}
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-          >
-            <option value="latest">최신순</option>
-            <option value="oldest">오래된순</option>
-          </Form.Select>
-          <Form.Select
-            style={{ width: "25%" }}
-            value={moodFilter}
-            onChange={(e) => setMoodFilter(e.target.value)}
-          >
-            <option value="all">전부</option>
-            <option value="very-good">매우 좋음</option>
-            <option value="good">좋음</option>
-            <option value="so-so">그저그럼</option>
-            <option value="bad">나쁨</option>
-            <option value="awful">매우나쁨</option>
-          </Form.Select>
+        <div className="d-flex justify-content-between">
+          <div className="d-flex gap-2">
+            <Form.Select
+              style={{ width: "100%" }}
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="latest">최신순</option>
+              <option value="oldest">오래된순</option>
+            </Form.Select>
+            <Form.Select
+              style={{ width: "100%" }}
+              value={moodFilter}
+              onChange={(e) => setMoodFilter(e.target.value)}
+            >
+              <option value="all">전부</option>
+              <option value="very-good">매우 좋음</option>
+              <option value="good">좋음</option>
+              <option value="so-so">그저그럼</option>
+              <option value="bad">나쁨</option>
+              <option value="awful">매우나쁨</option>
+            </Form.Select>
+          </div>
+          <Nav className="mb-3 mb-lg-0">
+            <DatePicker
+              dateFormat="yyyy년 MM월"
+              selected={selectedDate}
+              onChange={(date) => setSelectedDate(date)}
+              className="form-control text-center"
+            />
+          </Nav>
         </div>
 
         {!userInfo ? (
