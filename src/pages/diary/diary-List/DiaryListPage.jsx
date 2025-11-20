@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Card, Form, Nav } from "react-bootstrap";
 import "./DiaryListPage.style.css";
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ export default function DiaryListPage() {
   const [sortOrder, setSortOrder] = useState("latest");
   const [moodFilter, setMoodFilter] = useState("all");
   const { selectedDate, setSelectedDate } = useDiaryStore();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
 
@@ -52,6 +53,25 @@ export default function DiaryListPage() {
   }, [selectedMonth, userInfo]);
   console.log(diaries);
 
+  // URL 쿼리 (?month=YYYY-MM, ?mood=...)로 초기 상태 동기화
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const monthStr = params.get("month");
+    const mood = params.get("mood");
+    if (monthStr) {
+      const [yy, mm] = monthStr.split("-").map(Number);
+      if (yy && mm) {
+        const firstDay = new Date(yy, mm - 1, 1);
+        setSelectedDate(firstDay);
+      }
+    }
+    if (mood) {
+      setMoodFilter(mood);
+    }
+    setCurrentPage(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search]);
+
   // 감정 필터링 -> return filteredDiaries
   const filteredDiaries = diaries.filter((d) => {
     if (moodFilter === "all") return true;
@@ -85,6 +105,7 @@ export default function DiaryListPage() {
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDelete = (id) => {
@@ -112,9 +133,20 @@ export default function DiaryListPage() {
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h3 className="m-0">{selectedMonth}월 Diaries</h3>
-        <Button as={Link} to="/diary/new">
-          New
-        </Button>
+        {userInfo ? (
+          <Button as={Link} to="/diary/new">
+            New
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            variant="outline-secondary"
+            onClick={() => alert("로그인 후 작성할 수 있어요 🙂")}
+            title="로그인 필요"
+          >
+            New
+          </Button>
+        )}
       </div>
       <div className="d-grid gap-3">
         <div className="d-flex justify-content-between">
@@ -164,7 +196,7 @@ export default function DiaryListPage() {
           </Card>
         ) : (
           currentDiaries.map((d, idx) => (
-            <Card key={d.id} className="diaryList-card">
+            <Card key={d.id} className="diaryList-card" data-mood={d.mood}>
               <Card.Body as={Link} to={`/diary/${d.id}`}>
                 <Card.Title>{d.title}</Card.Title>
                 <Card.Text className="diaryList-excerpt">
@@ -202,26 +234,29 @@ export default function DiaryListPage() {
           ))
         )}
 
-        <ReactPaginate
-          previousLabel={"←"}
-          nextLabel={"→"}
-          breakLabel={"..."}
-          pageCount={pageCount}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination justify-content-center"}
-          pageClassName={"page-item"}
-          pageLinkClassName={"page-link"}
-          previousClassName={"page-item"}
-          previousLinkClassName={"page-link"}
-          nextClassName={"page-item"}
-          nextLinkClassName={"page-link"}
-          breakClassName={"page-item"}
-          breakLinkClassName={"page-link"}
-          activeClassName={"active"}
-          forcePage={currentPage}
-        />
+        {userInfo && pageCount > 1 && (
+          <ReactPaginate
+            previousLabel={"←"}
+            nextLabel={"→"}
+            breakLabel={"…"}
+            pageCount={pageCount}
+            marginPagesDisplayed={1}
+            pageRangeDisplayed={3}
+            onPageChange={handlePageClick}
+            containerClassName={"diaryList-pagination"}
+            pageClassName={"diaryList-page"}
+            pageLinkClassName={"diaryList-link"}
+            previousClassName={"diaryList-prev"}
+            previousLinkClassName={"diaryList-link"}
+            nextClassName={"diaryList-next"}
+            nextLinkClassName={"diaryList-link"}
+            breakClassName={"diaryList-break"}
+            breakLinkClassName={"diaryList-link"}
+            activeClassName={"is-active"}
+            disabledClassName={"is-disabled"}
+            forcePage={currentPage}
+          />
+        )}
       </div>
     </>
   );
