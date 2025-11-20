@@ -8,6 +8,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReactPaginate from "react-paginate";
 import PatchDiary from "./component/PatchDiary";
+import { useSearchKeyword } from "../../../app/store/search";
 
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
@@ -25,6 +26,8 @@ export default function DiaryListPage() {
 
   const [editingDiary, setEditingDiary] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
+
+  const { searchKeyword } = useSearchKeyword();
 
   // ['#6cc08e''#8fc970' '#e9b80f''#ea7430''#e64b52']
 
@@ -57,6 +60,8 @@ export default function DiaryListPage() {
   }, [selectedMonth, userInfo]);
   console.log(diaries);
 
+  useEffect(() => setCurrentPage(0), [searchKeyword]);
+
   // URL 쿼리 (?month=YYYY-MM, ?mood=...)로 초기 상태 동기화
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -76,8 +81,13 @@ export default function DiaryListPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.search]);
 
+  const keywordFilteredDiaries = diaries.filter((d) => {
+    if (!searchKeyword) return true;
+    return d.title.includes(searchKeyword);
+  });
+
   // 감정 필터링 -> return filteredDiaries
-  const filteredDiaries = diaries.filter((d) => {
+  const filteredDiaries = keywordFilteredDiaries.filter((d) => {
     if (moodFilter === "all") return true;
     return d.mood === moodFilter;
   });

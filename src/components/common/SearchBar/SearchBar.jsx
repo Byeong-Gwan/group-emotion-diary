@@ -1,12 +1,16 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import "./SearchBar.style.css";
 import { useSearchKeyword } from "../../../app/store/search";
 const SearchBar = () => {
   const { searchKeyword, setSearchKeyword } = useSearchKeyword();
+  const [inputValue, setInputValue] = useState("");
+
   const handleSearch = (event) => {
     event.preventDefault();
+    setSearchKeyword(inputValue);
+    console.log(searchKeyword)
   };
   return (
     <Form className="searchbar-container" onSubmit={handleSearch}>
@@ -19,9 +23,9 @@ const SearchBar = () => {
         placeholder="제목으로 일기장 검색"
         className=" mr-sm-2 searchbar-input"
         onChange={(e) => {
-          setSearchKeyword(e.target.value);
+          setInputValue(e.target.value);
         }}
-        value={searchKeyword}
+        value={inputValue}
       />
     </Form>
   );
