@@ -1,11 +1,10 @@
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import LoginPage from "../pages/auth/LoginPage";
 import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
+import logoText from "../asset/logo-text.png";
 import Footer from "../components/Footer/Footer";
-
+import LoginPage from "../pages/auth/LoginPage";
 export default function RootLayout() {
   const location = useLocation().pathname;
 
@@ -19,7 +18,7 @@ export default function RootLayout() {
       >
         <Container className="app-content">
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
-            Emotion Diary
+            <img src={logoText} style={{ width: "150px" }} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
@@ -34,7 +33,7 @@ export default function RootLayout() {
                   📚다이어리 목록
                 </Button>
               )}
-              <LoginPage/>
+              <LoginPage />
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -50,6 +50,8 @@ src/
     styles/
       global.css                   # 전역 최소 스타일
 
+  assset/                          # 이미지 저장
+
   components/
     common/
       GoogleLoginButton.jsx        # Google 로그인 버튼(필요 시 구현)
