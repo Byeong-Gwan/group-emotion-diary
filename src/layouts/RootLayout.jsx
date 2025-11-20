@@ -5,6 +5,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import useDiaryStore from "../app/store/diary";
 import LoginPage from "../pages/auth/LoginPage";
 import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
+import Footer from "../components/Footer/Footer";
 
 export default function RootLayout() {
   const location = useLocation().pathname;
@@ -12,8 +13,12 @@ export default function RootLayout() {
   useMoodFillNavigation();
 
   return (
-    <>
-      <Navbar bg="light" expand="lg" className="app-navbar shadow-sm sticky-top">
+    <div className="d-flex flex-column min-vh-100">
+      <Navbar
+        bg="light"
+        expand="lg"
+        className="app-navbar shadow-sm sticky-top"
+      >
         <Container className="app-content">
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
             Emotion Diary
@@ -44,9 +49,10 @@ export default function RootLayout() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <Container className="py-4 app-content">
+      <Container className="py-4 app-content flex-grow-1">
         <Outlet />
       </Container>
-    </>
+      <Footer />
+    </div>
   );
 }
