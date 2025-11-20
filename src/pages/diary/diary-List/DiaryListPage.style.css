@@ -5,6 +5,8 @@
   transition: transform .12s ease, box-shadow .12s ease;
   position: relative;
   animation: diaryList-cardIn .4s ease both;
+  overflow: hidden; /* for sweep overlay */
+  background: #fff;
 }
 
 .diaryList-card:hover {
@@ -28,11 +30,13 @@
 }
 
 /* Accent color per mood (matches moodPalette) */
-.diaryList-card[data-mood="very-good"]::before { background: linear-gradient(180deg, #6cc08e, #a7e3b3); }
-.diaryList-card[data-mood="good"]::before { background: linear-gradient(180deg, #8fc970, #b7e2a3); }
-.diaryList-card[data-mood="so-so"]::before { background: linear-gradient(180deg, #e9b80f, #f4cc39); }
-.diaryList-card[data-mood="bad"]::before { background: linear-gradient(180deg, #ea7430, #f39862); }
-.diaryList-card[data-mood="awful"]::before { background: linear-gradient(180deg, #e64b52, #ef7076); }
+.diaryList-card[data-mood="very-good"]{ --mood: #a7e3b3; --mood-strong:#6cc08e; }
+.diaryList-card[data-mood="good"]{ --mood: #b7e2a3; --mood-strong:#8fc970; }
+.diaryList-card[data-mood="so-so"]{ --mood: #f4cc39; --mood-strong:#e9b80f; }
+.diaryList-card[data-mood="bad"]{ --mood: #f39862; --mood-strong:#ea7430; }
+.diaryList-card[data-mood="awful"]{ --mood: #ef7076; --mood-strong:#e64b52; }
+
+.diaryList-card[data-mood]::before { background: linear-gradient(180deg, var(--mood-strong, #93c5fd), var(--mood, #86efac)); }
 
 .diaryList-card .card-title {
   margin-bottom: 6px;
@@ -125,6 +129,44 @@
 @keyframes diaryList-accentFlow {
   0%, 100% { background-position: 0% 0%; }
   50%      { background-position: 0% 100%; }
+}
+
+/* Sweep fill overlay */
+.diaryList-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--mood, #e5f4ff);
+  opacity: 0;
+  pointer-events: none;
+  clip-path: circle(0% at var(--x, 10%) var(--y, 50%));
+}
+
+.diaryList-card.is-filling::after {
+  animation: diaryList-sweep .8s ease-out forwards;
+}
+
+@keyframes diaryList-sweep {
+  0% {
+    opacity: 1;
+    clip-path: circle(0% at var(--x, 10%) var(--y, 50%));
+  }
+  60% {
+    opacity: 1;
+    clip-path: circle(120% at var(--x, 10%) var(--y, 50%));
+  }
+  100% {
+    opacity: 1;
+    clip-path: circle(160% at var(--x, 10%) var(--y, 50%));
+  }
+}
+
+/* Ensure content stays readable over mood fill */
+.diaryList-card.is-filling .card-title,
+.diaryList-card.is-filling .card-text,
+.diaryList-card.is-filling .btn {
+  position: relative;
+  z-index: 1;
 }
 
 /* Style existing mood/date texts as subtle badges without changing markup */
