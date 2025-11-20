@@ -38,11 +38,13 @@ export default function DiaryListPage() {
         .then((data) => {
           const filtered = data.filter((item) => item?.name === userInfo?.name);
           setDiaries(filtered);
+          setCurrentPage(0)
         })
         .catch((err) => console.error("데이터 가져오기 실패", err));
     } else if (selectedMonth === 11) {
       const localDiaries = useDiaryStore.getState().diaries;
       setDiaries(localDiaries);
+      setCurrentPage(0)
     } else {
       setDiaries([]);
     }
@@ -135,7 +137,7 @@ export default function DiaryListPage() {
         ) : diaries.length === 0 ? (
           <Card className="diaryList-card">
             <Card.Body>
-              <Card.Title className="p-2">데이터가 없습니다.</Card.Title>
+              <Card.Title className="p-2 m-0">데이터가 없습니다.</Card.Title>
             </Card.Body>
           </Card>
         ) : (
@@ -192,6 +194,7 @@ export default function DiaryListPage() {
           breakClassName={"page-item"}
           breakLinkClassName={"page-link"}
           activeClassName={"active"}
+          forcePage={currentPage}
         />
       </div>
     </>
