@@ -6,6 +6,7 @@ import { useUserStore } from "../../../app/store/auth";
 import useDiaryStore from "../../../app/store/diary";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ReactPaginate from "react-paginate";
 
 export default function DiaryListPage() {
   console.log("ddddd", useDiaryStore?.getState().diaries);
@@ -15,6 +16,8 @@ export default function DiaryListPage() {
   const [sortOrder, setSortOrder] = useState("latest");
   const [moodFilter, setMoodFilter] = useState("all");
   const { selectedDate, setSelectedDate } = useDiaryStore();
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
 
   const selectedMonth = new Date(selectedDate).getMonth() + 1;
 
@@ -62,10 +65,18 @@ export default function DiaryListPage() {
     }
   });
 
+  const offset = currentPage * itemsPerPage;
+  const currentDiaries = sortedDiaries.slice(offset, offset + itemsPerPage);
+  const pageCount = Math.ceil(sortedDiaries.length / itemsPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1>{selectedMonth}월 Diaries</h1>
+        <h2>{selectedMonth}월 Diaries</h2>
         <Button as={Link} to="/diary/new">
           New
         </Button>
@@ -123,54 +134,70 @@ export default function DiaryListPage() {
             </Card.Body>
           </Card>
         ) : (
-          sortedDiaries.map((d, idx) => (
+          currentDiaries.map((d, idx) => (
             <Card
               key={d.id}
               className="diaryList-card"
               style={{ border: `3px solid ${moodColors[d.mood] || "#ccc"}` }}
             >
-              <Card>
-                <Card.Body
-                  as={Link}
-                  to={`/diary/${d.id}`}
-                  className="text-decoration-none"
-                >
-                  <Card.Text className="d-flex justify-content-between">
-                    <div className="d-flex">
-                      <div className="d-flex justify-content-start align-items-center">
-                        <Card.Text
-                          style={{
-                            color: `${moodColors[d.mood] || "#ccc"}`,
-                            fontWeight: "bolder",
-                          }}
-                        >
-                          {d.mood}
-                        </Card.Text>
-                      </div>
+              <Card.Body
+                as={Link}
+                to={`/diary/${d.id}`}
+                className="text-decoration-none"
+              >
+                <Card.Text className="d-flex justify-content-between">
+                  <div className="d-flex">
+                    <div className="d-flex justify-content-start align-items-center">
+                      <Card.Text
+                        style={{
+                          color: `${moodColors[d.mood] || "#ccc"}`,
+                          fontWeight: "bolder",
+                        }}
+                      >
+                        {d.mood}
+                      </Card.Text>
                     </div>
-                    {new Date(d.createdAt).toLocaleDateString("ko-KR")}
-                  </Card.Text>
-                  <div className="px-1">
-                    <Card.Title>{d.title}</Card.Title>
-                    <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
                   </div>
-                </Card.Body>
-                <div
-                  className="p-3 d-flex justify-content-between"
-                  style={{ boxSizing: "border-box" }}
-                >
-                  <div className="fs-4">
-                    {idx+1}
-                  </div>
-                  <div>
-                    <button className="mx-1">수정</button>
-                    <button className="mx-1">삭제</button>
-                  </div>
+                  {new Date(d.createdAt).toLocaleDateString("ko-KR")}
+                </Card.Text>
+                <div className="px-1">
+                  <Card.Title>{d.title}</Card.Title>
+                  <Card.Text>{d.content.slice(0, 80)}...</Card.Text>
                 </div>
-              </Card>
+              </Card.Body>
+              <div
+                className="p-3 d-flex justify-content-between"
+                style={{ boxSizing: "border-box" }}
+              >
+                <div className="fs-4">{offset + idx + 1}</div>
+                <div>
+                  <button className="mx-1">수정</button>
+                  <button className="mx-1">삭제</button>
+                </div>
+              </div>
             </Card>
           ))
         )}
+
+        <ReactPaginate
+          previousLabel={"←"}
+          nextLabel={"→"}
+          breakLabel={"..."}
+          pageCount={pageCount}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={"pagination justify-content-center"}
+          pageClassName={"page-item"}
+          pageLinkClassName={"page-link"}
+          previousClassName={"page-item"}
+          previousLinkClassName={"page-link"}
+          nextClassName={"page-item"}
+          nextLinkClassName={"page-link"}
+          breakClassName={"page-item"}
+          breakLinkClassName={"page-link"}
+          activeClassName={"active"}
+        />
       </div>
     </>
   );
