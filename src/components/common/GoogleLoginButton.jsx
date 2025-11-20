@@ -10,11 +10,11 @@ export default function GoogleLoginButton({ onSuccess, onError, text = 'Google ê
         const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
           headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
         })
-        const user = await res.json()
+        const user = await res.json();
         // user: { sub, name, given_name, family_name, picture, email, email_verified }
-        onSuccess && onSuccess(user)
+        onSuccess && onSuccess(user);
       } catch (e) {
-        onError && onError(e)
+        onError && onError(e);
       }
     },
     onError: (err) => onError && onError(err),
