@@ -32,19 +32,20 @@ export default function DiaryListPage() {
   };
 
   useEffect(() => {
+    //json-server는 REST API를 지원 -> DELETE PATCH 가능
     if (selectedMonth === 10) {
       fetch("http://localhost:3000/emotionDiary")
         .then((res) => res.json())
         .then((data) => {
           const filtered = data.filter((item) => item?.name === userInfo?.name);
           setDiaries(filtered);
-          setCurrentPage(0)
+          setCurrentPage(0);
         })
         .catch((err) => console.error("데이터 가져오기 실패", err));
     } else if (selectedMonth === 11) {
       const localDiaries = useDiaryStore.getState().diaries;
       setDiaries(localDiaries);
-      setCurrentPage(0)
+      setCurrentPage(0);
     } else {
       setDiaries([]);
     }
@@ -84,6 +85,27 @@ export default function DiaryListPage() {
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
+  };
+
+  const handleDelete = (id) => {
+    console.log("delete", id);
+    if (selectedMonth === 10) {
+      console.log("10월");
+    }
+
+    if (selectedMonth === 11) {
+      console.log("11월");
+    }
+  };
+  const handlePatch = (id) => {
+    console.log("patch", id);
+    if (selectedMonth === 10) {
+      console.log("10월");
+    }
+
+    if (selectedMonth === 11) {
+      console.log("11월");
+    }
   };
 
   return (
@@ -168,8 +190,12 @@ export default function DiaryListPage() {
               >
                 <div className="fs-4">{offset + idx + 1}</div>
                 <div>
-                  <button className="mx-1">수정</button>
-                  <button className="mx-1">삭제</button>
+                  <button className="mx-1" onClick={() => handleDelete(d.id)}>
+                    수정
+                  </button>
+                  <button className="mx-1" onClick={() => handlePatch(d.id)}>
+                    삭제
+                  </button>
                 </div>
               </div>
             </Card>
