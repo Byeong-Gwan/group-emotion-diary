@@ -129,7 +129,7 @@ export default function DiaryListPage() {
 
   const handleDelete = async (id) => {
     console.log("delete", id);
-    if (selectedMonth === 10) {
+    if (selectedMonth === 10 || selectedMonth === 9) {
       console.log("10월");
       try {
         await fetch(`http://localhost:3000/emotionDiary/${id}`, {
