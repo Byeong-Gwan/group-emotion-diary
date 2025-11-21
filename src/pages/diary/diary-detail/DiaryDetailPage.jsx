@@ -31,7 +31,8 @@ export default function DiaryDetailPage() {
         <strong>현재 상태:</strong> {diary.mood}
       </p>
       <p>
-        <strong>타임스탬프:</strong> {new Date(diary.createdAt).toLocaleString()}
+        <strong>타임스탬프:</strong>{" "}
+        {new Date(diary.createdAt).toLocaleString()}
       </p>
       <hr />
       <p style={{ whiteSpace: "pre-wrap" }}>{diary.content}</p>
@@ -64,7 +65,7 @@ export default function DiaryDetailPage() {
       <div style={{ marginTop: 16 }}>
         <button
           className="btn btn-outline-secondary"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
         >
           로그 히스토리로
         </button>
