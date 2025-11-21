@@ -42,7 +42,7 @@ export default function DiaryListPage() {
   useEffect(() => {
     //json-server는 REST API를 지원 -> DELETE PATCH 가능
     if (selectedMonth === 9 || selectedMonth === 10) {
-      fetch("http://localhost:3000/emotionDiary")
+      fetch("/api/emotions")
         .then((res) => res.json())
         .then((data) => {
           const filtered = data.filter((item) => {
@@ -63,7 +63,9 @@ export default function DiaryListPage() {
   }, [selectedMonth, userInfo]);
   console.log(diaries);
 
-  useEffect(() => setCurrentPage(0), [searchKeyword]);
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [searchKeyword, moodFilter]);
 
   // URL 쿼리 (?month=YYYY-MM, ?mood=...)로 초기 상태 동기화
   useEffect(() => {
@@ -135,7 +137,7 @@ export default function DiaryListPage() {
     if (selectedMonth === 10 || selectedMonth === 9) {
       console.log("10월");
       try {
-        await fetch(`http://localhost:3000/emotionDiary/${id}`, {
+        await fetch(`/api/emotions/${id}`, {
           method: "DELETE",
         });
         setDiaries((prev) => prev.filter((d) => d.id !== id));
