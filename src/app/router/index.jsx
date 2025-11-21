@@ -1,11 +1,11 @@
- import { createBrowserRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import RootLayout from '../../layouts/RootLayout'
 import DiaryListPage from '../../pages/diary/diary-List/DiaryListPage'
 import DiaryCreatePage from '../../pages/diary/diary-create/DiaryCreatePage'
 import DiaryDetailPage from '../../pages/diary/diary-detail/DiaryDetailPage'
 import MyPage from '../../pages/my/MyPage'
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: '/',
     element: <RootLayout />,
