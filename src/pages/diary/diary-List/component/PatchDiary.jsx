@@ -76,7 +76,7 @@ export default function PatchDiary({ diary, onClose, setDiaries }) {
 
   const updateJsonDiary = async (id, payload) => {
     try {
-      const res = await fetch(`/api/emotions/${id}`, {
+      const res = await fetch(`/api/emotions?id=${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
