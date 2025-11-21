@@ -3,7 +3,6 @@ import React from "react";
 import useDiaryStore from "../../../app/store/diary.js";
 import EmotionModal from "../../../components/Modal/Modal.jsx";
 import { Button } from "react-bootstrap";
-import { moodPalette } from "../../../lib/mood.js";
 
 export default function DiaryDetailPage() {
   const { id } = useParams();
@@ -64,7 +63,7 @@ export default function DiaryDetailPage() {
       <div style={{ marginTop: 16 }}>
         <button
           className="btn btn-outline-secondary"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/")}
         >
           로그 히스토리로
         </button>
