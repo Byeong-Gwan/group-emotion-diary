@@ -57,38 +57,38 @@ export default function DiaryCreatePage() {
             borderRadius: 12,
             transition: 'background-color .12s ease'
         }}>
-            <h3 className="mb-3">새 일기 작성</h3>
+            <h3 className="mb-3">새 감정 로그 커밋</h3>
 
             <form onSubmit={onSubmit} noValidate>
                 <div className="mb-3">
-                    <label className="form-label">제목</label>
+                    <label className="form-label">로그 제목</label>
                     <input
                         className={`form-control ${touched && !title.trim() ? 'is-invalid' : ''}`}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        placeholder="제목을 입력하세요"
+                        placeholder="로그 제목을 입력하세요"
                     />
                     {touched && !title.trim() && (
-                        <div className="invalid-feedback">제목은 필수입니다.</div>
+                        <div className="invalid-feedback">로그 제목은 필수입니다.</div>
                     )}
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">오늘의 감정</label>
+                    <label className="form-label">현재 상태</label>
                     <MoodPicker value={mood} onChange={setMood} options={moodOptions} />
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">오늘의 일기</label>
+                    <label className="form-label">오늘의 로그</label>
                     <textarea
                         className={`form-control ${touched && !content.trim() ? 'is-invalid' : ''}`}
                         rows={8}
-                        placeholder="오늘의 생각과 감정을 기록해 보세요"
+                        placeholder="오늘의 감정을 로그 형식으로 남겨주세요"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
                     {touched && !content.trim() && (
-                        <div className="invalid-feedback">일기 내용은 필수입니다.</div>
+                        <div className="invalid-feedback">로그 본문은 필수입니다.</div>
                     )}
                 </div>
 
@@ -98,14 +98,14 @@ export default function DiaryCreatePage() {
                         className="btn btn-outline-secondary"
                         onClick={() => navigate(-1)}
                     >
-                        취소하기
+                        취소
                     </button>
                     <button
                         type="submit"
                         className="btn btn-success"
                         disabled={!isValid}
                     >
-                        작성완료
+                        커밋
                     </button>
                 </div>
             </form>

@@ -14,7 +14,7 @@ export default function DiaryDetailPage() {
   const [modalShow, setModalShow] = React.useState(false);
   const [aiResult, setAiResult] = React.useState(""); // AI 결과 저장
 
-  if (!diary) return <p>일기를 찾을 수 없습니다.</p>;
+  if (!diary) return <p>로그를 찾을 수 없습니다.</p>;
 
   return (
     <article
@@ -28,10 +28,10 @@ export default function DiaryDetailPage() {
     >
       <h3 className="mb-3">{diary.title}</h3>
       <p>
-        <strong>기분:</strong> {diary.mood}
+        <strong>현재 상태:</strong> {diary.mood}
       </p>
       <p>
-        <strong>작성일:</strong> {new Date(diary.createdAt).toLocaleString()}
+        <strong>타임스탬프:</strong> {new Date(diary.createdAt).toLocaleString()}
       </p>
       <hr />
       <p style={{ whiteSpace: "pre-wrap" }}>{diary.content}</p>
@@ -46,7 +46,7 @@ export default function DiaryDetailPage() {
             borderRadius: 10,
           }}
         >
-          <h5>📌 AI 감정 분석 결과</h5>
+          <h5>📌 AI 감정 디버깅 리포트</h5>
           <p style={{ whiteSpace: "pre-wrap" }}>{aiResult}</p>
         </div>
       )}
@@ -57,7 +57,7 @@ export default function DiaryDetailPage() {
           size="lg"
           onClick={() => setModalShow(true)}
         >
-          ▶ AI 감정 분석
+          ▶ AI 감정 디버깅
         </Button>
       </div>
 
@@ -66,7 +66,7 @@ export default function DiaryDetailPage() {
           className="btn btn-outline-secondary"
           onClick={() => navigate(-1)}
         >
-          목록으로 돌아가기
+          로그 히스토리로
         </button>
       </div>
 
