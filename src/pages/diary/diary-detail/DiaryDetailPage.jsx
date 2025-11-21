@@ -3,6 +3,7 @@ import React from "react";
 import useDiaryStore from "../../../app/store/diary.js";
 import EmotionModal from "../../../components/Modal/Modal.jsx";
 import { Button } from "react-bootstrap";
+import { moodPalette } from "../../../lib/mood.js";
 
 export default function DiaryDetailPage() {
   const { id } = useParams();
@@ -15,21 +16,13 @@ export default function DiaryDetailPage() {
 
   if (!diary) return <p>일기를 찾을 수 없습니다.</p>;
 
-  const moodColors = {
-    "very-good": "#f1fbf4",
-    good: "#f5fbf0",
-    "so-so": "#fff8dd",
-    bad: "#fff0e8",
-    awful: "#ffecef",
-  };
-
   return (
     <article
       style={{
         maxWidth: 720,
         margin: "0 auto",
         padding: 16,
-        background: moodColors[diary.mood] || "transparent",
+        background: "#fff",
         borderRadius: 12,
       }}
     >
@@ -59,7 +52,11 @@ export default function DiaryDetailPage() {
       )}
 
       <div style={{ marginTop: 16 }}>
-        <Button variant="danger" size="lg" onClick={() => setModalShow(true)}>
+        <Button
+          variant="outline-primary"
+          size="lg"
+          onClick={() => setModalShow(true)}
+        >
           ▶ AI 감정 분석
         </Button>
       </div>
