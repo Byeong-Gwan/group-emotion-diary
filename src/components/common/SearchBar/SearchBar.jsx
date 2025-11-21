@@ -20,7 +20,7 @@ const SearchBar = () => {
       />
       <Form.Control
         type="text"
-        placeholder="제목으로 일기장 검색"
+        placeholder="제목으로 로그 검색"
         className=" mr-sm-2 searchbar-input"
         onChange={(e) => {
           setInputValue(e.target.value);
