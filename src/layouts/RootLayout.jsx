@@ -3,6 +3,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
 import logoText from "../asset/logo-text.png";
+import logLogo from "../asset/emotion-log-logo.png";
 import Footer from "../components/Footer/Footer";
 import LoginPage from "../pages/auth/LoginPage";
 import { useUserStore } from "../app/store/auth";
@@ -21,7 +22,7 @@ export default function RootLayout() {
       >
         <Container className="app-content">
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
-            <img src={logoText} style={{ width: "150px"}} />
+            <img src={logLogo} style={{ width: "150px" }} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
