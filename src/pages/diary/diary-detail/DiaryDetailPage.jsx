@@ -30,7 +30,8 @@ export default function DiaryDetailPage() {
         <strong>현재 상태:</strong> {diary.mood}
       </p>
       <p>
-        <strong>타임스탬프:</strong> {new Date(diary.createdAt).toLocaleString()}
+        <strong>타임스탬프:</strong>{" "}
+        {new Date(diary.createdAt).toLocaleString()}
       </p>
       <hr />
       <p style={{ whiteSpace: "pre-wrap" }}>{diary.content}</p>
