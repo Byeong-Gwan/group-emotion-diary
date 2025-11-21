@@ -237,3 +237,26 @@
   opacity: .5;
   pointer-events: none;
 }
+
+.pathBtn, .deleteBtn{
+  border-radius: 8px;
+  background-color: white;
+  font-weight: bolder;
+}
+.pathBtn{
+  border: 2px solid #8fc970;
+  color: #8fc970;
+}
+.deleteBtn{
+  border: 2px solid #ea7430;
+  color: #ea7430;
+}
+
+@media screen and (max-width:640px) {
+  .moodTextBox, .dateTextBox{
+  font-size: 0.8rem;
+}
+.pathBtn, .deleteBtn{
+  font-size: 0.8rem;
+}
+}

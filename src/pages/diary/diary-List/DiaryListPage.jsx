@@ -128,6 +128,9 @@ export default function DiaryListPage() {
   // 삭제 버튼
 
   const handleDelete = async (id) => {
+    const ok = window.confirm("정말 삭제하시겠습니까?");
+    if (!ok) return; // 취소하면 아무 동작 안 함
+
     console.log("delete", id);
     if (selectedMonth === 10 || selectedMonth === 9) {
       console.log("10월");
@@ -179,21 +182,23 @@ export default function DiaryListPage() {
         )}
       </div>
 
-      <div className="d-grid gap-3">
+      <div className="d-grid">
         <div className="d-flex justify-content-between">
           <div className="d-flex gap-2">
             <Form.Select
-              style={{ width: "100%" }}
+              style={{ width: "100%", borderRadius: "8px" }}
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
+              className="mb-3"
             >
               <option value="latest">최신순</option>
               <option value="oldest">오래된순</option>
             </Form.Select>
             <Form.Select
-              style={{ width: "100%" }}
+              style={{ width: "100%", borderRadius: "8px" }}
               value={moodFilter}
               onChange={(e) => setMoodFilter(e.target.value)}
+              className="mb-3"
             >
               <option value="all">전부</option>
               <option value="very-good">매우 좋음</option>
@@ -209,6 +214,7 @@ export default function DiaryListPage() {
               selected={selectedDate}
               onChange={(date) => setSelectedDate(date)}
               className="form-control text-center"
+              showMonthYearPicker
             />
           </Nav>
         </div>
@@ -227,7 +233,7 @@ export default function DiaryListPage() {
           </Card>
         ) : (
           currentDiaries.map((d, idx) => (
-            <Card key={d.id} className="diaryList-card" data-mood={d.mood}>
+            <Card key={d.id} className="diaryList-card mb-3" data-mood={d.mood}>
               <Card.Body as={Link} to={`/diary/${d.id}`}>
                 <Card.Title>{d.title}</Card.Title>
                 <Card.Text className="diaryList-excerpt">
@@ -239,10 +245,11 @@ export default function DiaryListPage() {
                       backgroundColor: `${moodColors[d.mood]}`,
                       color: "white",
                     }}
+                    className="moodTextBox"
                   >
                     {d.mood}
                   </Card.Text>
-                  <Card.Text>
+                  <Card.Text className="dateTextBox">
                     {new Date(d.createdAt).toLocaleDateString("ko-KR")}
                   </Card.Text>
                 </div>
@@ -253,10 +260,16 @@ export default function DiaryListPage() {
               >
                 <div className="fs-4">{offset + idx + 1}</div>
                 <div>
-                  <button className="mx-1" onClick={() => handlePatch(d.id)}>
+                  <button
+                    className="mx-1 pathBtn"
+                    onClick={() => handlePatch(d.id)}
+                  >
                     수정
                   </button>
-                  <button className="mx-1" onClick={() => handleDelete(d.id)}>
+                  <button
+                    className="mx-1 deleteBtn"
+                    onClick={() => handleDelete(d.id)}
+                  >
                     삭제
                   </button>
                 </div>
@@ -294,7 +307,8 @@ export default function DiaryListPage() {
       {editingDiary && (
         <Modal show={isShowModal} onHide={() => setIsShowModal(false)}>
           <PatchDiary
-            diary={editingDiary} setDiaries={setDiaries}
+            diary={editingDiary}
+            setDiaries={setDiaries}
             onClose={() => setIsShowModal(false)}
           />
         </Modal>
