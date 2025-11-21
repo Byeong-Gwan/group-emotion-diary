@@ -17,11 +17,11 @@ export default function RootLayout() {
       <Navbar
         bg="light"
         expand="lg"
-        className="app-navbar shadow-sm sticky-top"
+        className="app-navbar shadow-sm sticky-top p-0"
       >
         <Container className="app-content">
           <Navbar.Brand as={Link} to="/" className="app-navbar-brand">
-            <img src={logoText} style={{ width: "150px" }} />
+            <img src={logoText} style={{ width: "150px"}} />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
           <Navbar.Collapse id="navbarScroll">
