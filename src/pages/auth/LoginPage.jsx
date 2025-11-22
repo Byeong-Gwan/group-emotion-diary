@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useUserStore } from "../../app/store/auth";
-import UserInfo from "../../components/UserInfo/UserInfo";
+import UserInfo from "../../components/userInfo/UserInfo";
 import GoogleLoginButton from "../../components/common/GoogleLoginButton";
 
 const LoginPage = () => {
@@ -14,6 +14,8 @@ const LoginPage = () => {
     setUserInfo(user);
     setIsLoggedIn(true);
     setUserName(user?.name || "");
+    localStorage.setItem("user", JSON.stringify(user)); //로그인 유저 프로필 로컬스토리지 저장
+
   };
 
   const handleLoginF = (error) => {
@@ -23,6 +25,18 @@ const LoginPage = () => {
   const toggleInfo = () => {
     setIsShowInfo(prevState => !prevState);
   };
+
+//로그인 유저 프로필 복원  
+useEffect(() => {
+  const savedUser = localStorage.getItem("user");
+  if (savedUser) {
+    const user = JSON.parse(savedUser);
+    setUserInfo(user);
+    setIsLoggedIn(true);
+    setUserName(user?.name || "");
+  }
+}, []);
+
 
   return (
     <div className="d-flex align-items-center">

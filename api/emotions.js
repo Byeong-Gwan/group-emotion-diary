@@ -152,6 +152,7 @@ const emotionDiary = [
     content: "오늘은 기분이 조금 다운됐다.",
   },
 ];
+
 export default function handler(req, res) {
   if (req.method === "GET") {
     res.status(200).json(emotionDiary);
@@ -174,6 +175,15 @@ export default function handler(req, res) {
     };
 
     return res.status(200).json(emotionDiary[index]);
+  } else if (req.method === "DELETE") {
+    const { id } = req.query;
+    const index = emotionDiary.findIndex((d) => d.id === id);
+    if (index === -1) {
+      return res.status(404).json({ message: "일기를 찾을 수 없음" });
+    }
+    const deleted = emotionDiary[index];
+    emotionDiary.splice(index, 1);
+    return res.status(200).json({ id: deleted.id, message: "삭제되었습니다" });
   } else {
     res.status(405).json({ message: "허용되지 않는 메서드" });
   }

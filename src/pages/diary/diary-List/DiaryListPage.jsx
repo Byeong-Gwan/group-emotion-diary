@@ -43,16 +43,16 @@ export default function DiaryListPage() {
     //json-server는 REST API를 지원 -> DELETE PATCH 가능
     if (selectedMonth === 9 || selectedMonth === 10) {
       fetch("/api/emotions")
-        .then((res) => res.json())
-        .then((data) => {
-          const filtered = data.filter((item) => {
-            const itemMonth = new Date(item.createdAt).getMonth() + 1;
-            return item?.name === userInfo?.name && itemMonth === selectedMonth;
-          });
-          setDiaries(filtered);
-          setCurrentPage(0);
-        })
-        .catch((err) => console.error("데이터 가져오기 실패", err));
+          .then((res) => res.json())
+          .then((data) => {
+            const filtered = data.filter((item) => {
+              const itemMonth = new Date(item.createdAt).getMonth() + 1;
+              return item?.name === userInfo?.name && itemMonth === selectedMonth;
+            });
+            setDiaries(filtered);
+            setCurrentPage(0);
+          })
+          .catch((err) => console.error("데이터 가져오기 실패", err));
     } else if (selectedMonth === 11) {
       const localDiaries = useDiaryStore.getState().diaries;
       setDiaries(localDiaries);
@@ -137,7 +137,7 @@ export default function DiaryListPage() {
     if (selectedMonth === 10 || selectedMonth === 9) {
       console.log("10월");
       try {
-        await fetch(`/api/emotions/${id}`, {
+        await fetch(`/api/emotions?id=${id}`, {
           method: "DELETE",
         });
         setDiaries((prev) => prev.filter((d) => d.id !== id));
