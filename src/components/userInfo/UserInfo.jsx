@@ -10,6 +10,7 @@ const UserInfo = () => {
     setUserInfo(null);
     setIsLoggedIn(false);
     setUserName("");
+    localStorage.removeItem("user");
     if (onclose) onclose();
   };
 
