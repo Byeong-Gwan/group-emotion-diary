@@ -151,7 +151,6 @@ const emotionDiary = [
     createdAt: "2025-09-21",
     content: "오늘은 기분이 조금 다운됐다.",
   },
-  [
     {
       id: "17",
       title: "가을 햇살 속 산책",
@@ -232,7 +231,6 @@ const emotionDiary = [
       createdAt: "2025-10-01",
       content: "밤이 깊어지니 혼자라는 생각이 들었다.",
     },
-  ],
 ];
 
 export default function handler(req, res) {
