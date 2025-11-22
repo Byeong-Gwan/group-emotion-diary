@@ -30,7 +30,6 @@ const EmotionModal = (props) => {
 
   const analyzeEmotion = async () => {
     if (loading) return;
-    if (count >= MAX_DAILY) return alert("오늘 최대 분석 횟수에 도달했습니다.");
 
     setLoading(true);
     setEmotionResult("");
@@ -55,8 +54,6 @@ const EmotionModal = (props) => {
       setLoading(false);
     }
   };
-
-  const isLastTry = count >= MAX_DAILY - 1;
 
   return (
     <BootstrapModal
@@ -99,7 +96,7 @@ const EmotionModal = (props) => {
         {emotionResult && (
           <>
             {/* 마지막 횟수 전까지 “다시 요청” 가능 */}
-            {!isLastTry && (
+            {count < MAX_DAILY && emotionResult && (
               <Button
                 variant="outline-primary"
                 onClick={analyzeEmotion}
