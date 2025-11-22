@@ -7,7 +7,7 @@ const EmotionModal = (props) => {
   const [emotionResult, setEmotionResult] = useState("");
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
-  const MAX_DAILY = 4;
+  const MAX_DAILY = 3;
 
   // 하루 횟수 유지
   useEffect(() => {
