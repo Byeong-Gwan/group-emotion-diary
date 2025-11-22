@@ -15,7 +15,7 @@ const LoginPage = () => {
     setIsLoggedIn(true);
     setUserName(user?.name || "");
     localStorage.setItem("user", JSON.stringify(user)); //로그인 유저 프로필 로컬스토리지 저장
-
+    setIsShowInfo(false);
   };
 
   const handleLoginF = (error) => {
@@ -23,20 +23,19 @@ const LoginPage = () => {
   };
 
   const toggleInfo = () => {
-    setIsShowInfo(prevState => !prevState);
+    setIsShowInfo((prevState) => !prevState);
   };
 
-//로그인 유저 프로필 복원  
-useEffect(() => {
-  const savedUser = localStorage.getItem("user");
-  if (savedUser) {
-    const user = JSON.parse(savedUser);
-    setUserInfo(user);
-    setIsLoggedIn(true);
-    setUserName(user?.name || "");
-  }
-}, []);
-
+  //로그인 유저 프로필 복원
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      const user = JSON.parse(savedUser);
+      setUserInfo(user);
+      setIsLoggedIn(true);
+      setUserName(user?.name || "");
+    }
+  }, []);
 
   return (
     <div className="d-flex align-items-center">
