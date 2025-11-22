@@ -96,7 +96,7 @@ const EmotionModal = (props) => {
         {emotionResult && (
           <>
             {/* 마지막 횟수 전까지 “다시 요청” 가능 */}
-            {count < MAX_DAILY && emotionResult && (
+            {count < MAX_DAILY && emotionResult ? (
               <Button
                 variant="outline-primary"
                 onClick={analyzeEmotion}
@@ -104,6 +104,8 @@ const EmotionModal = (props) => {
               >
                 다시 요청
               </Button>
+            ) : (
+              <p>오늘 횟수가 초과되었습니다</p>
             )}
 
             {/* 확인 → 부모 페이지에 결과 전달 */}
