@@ -71,7 +71,7 @@ const EmotionModal = (props) => {
 
       <BootstrapModal.Body>
         <p className="emotion-modal-count text-muted small mb-3">
-          오늘 사용한 횟수: {count}/{MAX_DAILY - 1}
+          오늘 사용한 횟수: {count}/{MAX_DAILY}
         </p>
 
         {!emotionResult && !loading && (
