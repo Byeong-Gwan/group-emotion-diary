@@ -1,5 +1,5 @@
 import { Modal as BootstrapModal, Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import useDiaryStore from "../../app/store/diary";
 
@@ -8,30 +8,41 @@ const EmotionModal = (props) => {
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
   const MAX_DAILY = 3;
+  const clickLock = useRef(false);
 
-  // 하루 횟수 유지
+  // 하루 횟수 유지 (일기별)
   useEffect(() => {
-    const saved = localStorage.getItem("dailyCount");
-    const today = localStorage.getItem("dailyCountDate");
+    if (!props.diary?.id) return;
+    const keyCount = `dailyCount:${props.diary.id}`;
+    const keyDate = `dailyCountDate:${props.diary.id}`;
+
+    const saved = localStorage.getItem(keyCount);
+    const today = localStorage.getItem(keyDate);
     const now = new Date().toDateString();
 
     if (saved && today === now) {
-      setCount(Number(saved));
+      const n = Number(saved);
+      setCount(Number.isFinite(n) ? Math.min(Math.max(n, 0), MAX_DAILY) : 0);
     } else {
-      localStorage.setItem("dailyCount", 0);
-      localStorage.setItem("dailyCountDate", now);
+      localStorage.setItem(keyCount, 0);
+      localStorage.setItem(keyDate, now);
       setCount(0);
     }
-  }, []);
+    // 일기 변경 시마다 다시 계산
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.diary?.id]);
 
   useEffect(() => {
-    localStorage.setItem("dailyCount", count);
-  }, [count]);
+    if (!props.diary?.id) return;
+    const keyCount = `dailyCount:${props.diary.id}`;
+    localStorage.setItem(keyCount, count);
+  }, [count, props.diary?.id]);
 
   const analyzeEmotion = async () => {
-    if (loading) return;
+    if (loading || clickLock.current) return;
     if (count >= MAX_DAILY) return alert("오늘 최대 분석 횟수에 도달했습니다.");
 
+    clickLock.current = true;
     setLoading(true);
     setEmotionResult("");
 
@@ -42,7 +53,7 @@ const EmotionModal = (props) => {
       );
 
       setEmotionResult(data.result);
-      setCount((prev) => prev + 1);
+      setCount((prev) => Math.min(prev + 1, MAX_DAILY));
 
       useDiaryStore.getState().updateDiary(props.diary.id, {
         analysis: data.result,
@@ -53,6 +64,7 @@ const EmotionModal = (props) => {
       setEmotionResult("분석 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
+      clickLock.current = false;
     }
   };
 
@@ -78,7 +90,7 @@ const EmotionModal = (props) => {
           <Button
             variant="outline-primary"
             onClick={analyzeEmotion}
-            disabled={count >= MAX_DAILY}
+            disabled={loading || count >= MAX_DAILY}
           >
             감정 분석 요청
           </Button>
@@ -103,7 +115,7 @@ const EmotionModal = (props) => {
               <Button
                 variant="outline-primary"
                 onClick={analyzeEmotion}
-                disabled={loading}
+                disabled={loading || count >= MAX_DAILY}
               >
                 다시 요청
               </Button>
