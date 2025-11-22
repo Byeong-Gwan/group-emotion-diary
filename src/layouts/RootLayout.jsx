@@ -2,7 +2,6 @@ import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import useMoodFillNavigation from "../app/hooks/useMoodFillNavigation";
-import logoText from "../asset/logo-text.png";
 import logLogo from "../asset/emotion-log-logo.png";
 import Footer from "../components/Footer/Footer";
 import LoginPage from "../pages/auth/LoginPage";
